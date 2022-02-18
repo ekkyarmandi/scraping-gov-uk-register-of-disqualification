@@ -38,13 +38,9 @@ class GovukSpider(scrapy.Spider):
             if a != None:
                 try:
                     td = row.css('td')
-                    ref = "https://find-and-update.company-information.service.gov.uk"
-                    link = a.attrib['href']
-                    if ref not in link:
-                        link = ref + link
                     yield {
                         "name": td.css('a::text').get(),
-                        "link": link,
+                        "link": response.urljoin(a.attrib['href']),
                         "date": td[1].css('td::text').get(),
                         "post_town": td[2].css('td::text').get()
                     }
